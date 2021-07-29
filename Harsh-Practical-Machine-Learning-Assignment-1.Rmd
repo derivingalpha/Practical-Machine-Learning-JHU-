@@ -2,9 +2,9 @@
 title: "Activity Recognition Using Predictive Analytics"
 author: "Harsh Yadav"
 output:
-  pdf_document: default
   html_document:
     keep_md: yes
+  pdf_document: default
 ---
 
 ## Overview
@@ -25,7 +25,6 @@ First, we load the training and testing set from the online sources and then spl
 ```{r DataLoading, message = FALSE}
 
 library(caret)
-setwd("~/Projects/R/Coursera-Practical-Machine-Learning-Assignment-1/")
 trainURL <- "http://d396qusza40orc.cloudfront.net/predmachlearn/pml-training.csv"
 testURL <- "http://d396qusza40orc.cloudfront.net/predmachlearn/pml-testing.csv"
 
@@ -89,7 +88,7 @@ modelDT <- rpart(classe ~ ., data = train, method = "class")
 fancyRpartPlot(modelDT)
 
 predictDT <- predict(modelDT, test, type = "class")
-confMatDT <- confusionMatrix(predictDT, test$classe)
+confMatDT <- confusionMatrix(predictDT, as.factor(test$classe))
 confMatDT
 
 ```
@@ -105,7 +104,7 @@ modelRF <- train(classe ~ ., data = train, method = "rf", trControl = control)
 modelRF$finalModel
 
 predictRF <- predict(modelRF, test)
-confMatRF <- confusionMatrix(predictRF, test$classe)
+confMatRF <- confusionMatrix(predictRF, as.factor(test$classe))
 confMatRF
 
 ```
@@ -121,12 +120,13 @@ modelGBM <- train(classe ~ ., data = train, trControl = control, method = "gbm",
 modelGBM$finalModel
 
 predictGBM <- predict(modelGBM, test)
-confMatGBM <- confusionMatrix(predictGBM, test$classe)
+confMatGBM <- confusionMatrix(predictGBM, as.factor(test$classe))
 confMatGBM
 
 ```
 
 As Random Forest offers the maximum accuracy of 99.75%, we will go with Random Forest Model to predict our test data class variable.
+
 
 ## Predicting Test Set Output
 
